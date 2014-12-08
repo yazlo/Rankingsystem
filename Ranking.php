@@ -10,20 +10,37 @@
 
     $dbh = new PDO('mysql:dbname=' . DB_NAME . ';host=' . DB_SERVER . ';charset=utf8', DB_USER, DB_PASSWORD);
 
+    if(isset($_GET["winner"])){
     $sql = "SELECT * FROM toplist WHERE namn='{$_GET["winner"]}'";
     $stmt = $dbh->prepare($sql);
     $stmt->execute();
-    $temp = $stmt->fetchAll();
-    $winner=$temp["ranking"];
+    $result = $stmt->fetch();
+    $winner=$result["ranking"];
 
     $sql = "SELECT * FROM toplist WHERE namn='{$_GET["loser"]}'";
     $stmt = $dbh->prepare($sql);
     $stmt->execute();
-    $temp = $stmt->fetchAll();
-    foreach($temp as $asd){
-        $asd["ranking"]=$loser;
-    }
+    $result = $stmt->fetch();
+    $loser=$result["ranking"];
+    
+    var_dump($loser);
     var_dump($winner);
+    
+    //winner=winner+loser/winner*100
+    //loser=loser-▲winner
+    $winner=$winner+($loser/$winner*100);
+    $loser=$loser-($loser/$winner*100);
+    
+    $sql = "UPDATE `toplist` SET `ranking`='{$winner}' WHERE namn='{$_GET["winner"]}'";
+    $stmt = $dbh->prepare($sql);
+    $stmt->execute();
+    
+    $sql = "UPDATE `toplist` SET `ranking`='{$loser}' WHERE namn='{$_GET["loser"]}'";
+    $stmt = $dbh->prepare($sql);
+    $stmt->execute();
+    header("Location:?");
+    exit();
+    }
 ?>
 <html>
     <head>
