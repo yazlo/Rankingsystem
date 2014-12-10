@@ -2,6 +2,8 @@
 <?php
     $winner;
     $loser;
+    $win;
+    $lose;
     
     define("DB_SERVER", "localhost");
     define("DB_USER", "root");
@@ -15,21 +17,16 @@
     $stmt = $dbh->prepare($sql);
     $stmt->execute();
     $result = $stmt->fetch();
-    $winner=$result["ranking"];
+    $win=$result["ranking"];
 
     $sql = "SELECT * FROM toplist WHERE namn='{$_GET["loser"]}'";
     $stmt = $dbh->prepare($sql);
     $stmt->execute();
     $result = $stmt->fetch();
-    $loser=$result["ranking"];
+    $lose=$result["ranking"];
     
-    var_dump($loser);
-    var_dump($winner);
-    
-    //winner=winner+loser/winner*100
-    //loser=loser-▲winner
-    $winner=$winner+($loser/$winner*100);
-    $loser=$loser-($loser/$winner*100);
+    $winner=$win+($lose/$win*100);
+    $loser=$lose-($lose/$win*100);
     
     $sql = "UPDATE `toplist` SET `ranking`='{$winner}' WHERE namn='{$_GET["winner"]}'";
     $stmt = $dbh->prepare($sql);
