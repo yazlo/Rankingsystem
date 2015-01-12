@@ -89,20 +89,22 @@ if (isset($_GET["winner"]) and $_GET["winner"]!=null) {
                         }
                         if (isset($_GET["Logout"])) {
                             $_SESSION["loggedin"] = null;
-                        }                                                 
-                        if ($_SESSION["loggedin"] == 1) {
-                            echo "<td>";
-                            echo "<input type='text' name='winner'>";
-                            echo "</td>";
-                            echo "<td>";
-                            echo "<p>won over</p>";
-                            echo "</td>";
-                            echo "<td>";
-                            echo "<input type='text' name='loser'>";
-                            echo "</td>";
-                            echo "<td>";
-                            echo "<input type='submit' name='action' Value='Add'>";
-                            echo "</td>";
+                        }
+                        if(isset($_SESSION["loggedin"])){
+                            if ($_SESSION["loggedin"] == 1) {
+                                echo "<td>";
+                                echo "<input type='text' name='winner'>";
+                                echo "</td>";
+                                echo "<td>";
+                                echo "<p>won over</p>";
+                                echo "</td>";
+                                echo "<td>";
+                                echo "<input type='text' name='loser'>";
+                                echo "</td>";
+                                echo "<td>";
+                                echo "<input type='submit' name='action' Value='Add'>";
+                                echo "</td>";                        
+                        }
                             ?>
                 </form>
                 <form>
@@ -124,7 +126,7 @@ if (isset($_GET["winner"]) and $_GET["winner"]!=null) {
                             echo "<input type='text' name='username'>";
                             echo "</td>";
                             echo "<td>";
-                            echo "<input type='text' name='password'>";
+                            echo "<input type='password' name='password'>";
                             echo "</td>";
                             echo "<td>";
                             echo "<input type='submit' name='action' Value='Login'>";
